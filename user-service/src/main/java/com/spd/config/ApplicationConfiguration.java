@@ -1,8 +1,5 @@
 package com.spd.config;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -15,11 +12,13 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class ApplicationConfiguration {
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(
@@ -30,19 +29,21 @@ public class ApplicationConfiguration {
             Authorize -> Authorize.requestMatchers("/api/**").authenticated().anyRequest().permitAll()
         ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
             .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.configurationSource(corsconfigurationSource()))
-                        .httpBasic(Customizer.withDefaults())
-                        .formLogin(Customizer.withDefaults());
-                            return http.build();
-                }
-            
-                
-    private CorsConfigurationSource corsconfigurationSource() {
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .httpBasic(Customizer.withDefaults())
+            .formLogin(Customizer.withDefaults());
+        
+        return http.build();
+    }
+
+    private CorsConfigurationSource corsConfigurationSource() {
         return new CorsConfigurationSource() {
             @Override
-             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
+            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Collections.singletonList("*"));
+                // Use allowedOriginPatterns instead of allowedOrigins
+                cfg.setAllowedOriginPatterns(Arrays.asList("http://localhost:5173",
+                										   "http://192.168.162.185:*")); // frontend URL
                 cfg.setAllowedMethods(Collections.singletonList("*"));
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*"));
@@ -50,10 +51,9 @@ public class ApplicationConfiguration {
                 cfg.setMaxAge(3600L);
                 return cfg;
             }
-        };   
+        };
     }
-    
-                        
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
