@@ -107,10 +107,10 @@ Create `application.properties`:
 
 ```properties
 # application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/taskdb
-spring.datasource.username=root
-spring.datasource.password=secret
-jwt.secret=your-512-bit-secret-key
+spring.datasource.url=jdbc:mysql://localhost:3306/databaseName
+spring.datasource.username=enterUserName
+spring.datasource.password=enterPassword
+jwt.secret=enter-512-bit-secret-key
 ```
 
 ---
