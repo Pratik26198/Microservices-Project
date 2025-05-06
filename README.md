@@ -17,7 +17,7 @@ A robust microservices project for task management with JWT authentication, role
 ## 🔑 Authentication Flow
 1. Signup at `/auth/signup` to get JWT
 2. Include JWT in `Authorization: Bearer {token}` header for secured endpoints
-3. Roles: `USER` (default), `ADMIN`
+3. Roles: `ROLE_CUSTOMER` (default), `ROLE_ADMIN`
 
 ## 🚀 API Endpoints
 
@@ -65,7 +65,7 @@ curl -X POST http://localhost:5000/auth/signup \
   "email": "pratik@taskify.com",
   "password": "secure123",
   "fullName": "Pratik Developer",
-  "role": "ADMIN"
+  "role": "ROLE_ADMIN"
 }'
 ```
 
