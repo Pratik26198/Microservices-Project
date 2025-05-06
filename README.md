@@ -68,42 +68,47 @@ curl -X POST http://localhost:5000/auth/signup \
 }'
 
 
-Submit Task:
+# 🛠️ Task Management API Documentation
 
-bash
-curl -X POST http://localhost:5000/api/submissions \
--H "Authorization: Bearer eyJhb..." \
--F "task_id=5" \
--F "github_link=https://github.com/user/task-submission"
-Assign Task:
+## ⚙️ Project Setup
 
-bash
-curl -X PUT http://localhost:5000/api/tasks/15/user/8/assigned \
--H "Authorization: Bearer eyJhb..."
-⚙️ Project Setup
-Requirements
+### Requirements
 
-Java 17
+- **Java 17**
+- **Maven**
+- **MySQL**
 
-Maven
+---
 
-MySQL/PostgreSQL
+### Configuration
 
-Configuration
+Create a `application.properties` file:
 
-properties
+```properties
 # application.properties
 spring.datasource.url=jdbc:mysql://localhost:3306/taskdb
-spring.datasource.username=root
-spring.datasource.password=secret
-jwt.secret=your-512-bit-secret-key
-Run Application
+spring.datasource.username=username
+spring.datasource.password=Enter secret password
 
-bash
+jwt.secret=your-512-bit-secret-key
+```
+
+---
+
+### Run Application
+
+```bash
 mvn clean install
 mvn spring-boot:run -Dserver.port=5000
-📦 Dependencies
-xml
+```
+
+---
+
+## 📦 Dependencies (Maven)
+
+Add the following dependencies to your `pom.xml`:
+
+```xml
 <dependencies>
   <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -120,21 +125,53 @@ xml
     <optional>true</optional>
   </dependency>
 </dependencies>
-📝 Key Implementation Details
-Security Configuration
+```
 
-JWT validation in UserService.getUserProfile()
+---
 
-Role checks in TaskService.createTask()
+## 📝 Key Implementation Details
 
-State Management
+### 🔐 Security Configuration
 
-Task status transitions enforced in completeTask()
+- **JWT Validation** is handled in `UserService.getUserProfile()`.
+- **Role-Based Access Control (RBAC)** checks are implemented in `TaskService.createTask()`.
 
-Submission lifecycle handled in acceptDeclineSubmission()
+---
 
-Validation
+### 🔄 State Management
 
-Email uniqueness check during signup
+- **Task status transitions** are enforced in `completeTask()`.
+- **Submission lifecycle** is managed within `acceptDeclineSubmission()`.
 
-Task ownership validation in updateTask()
+---
+
+### ✅ Validation
+
+- **Email Uniqueness** is verified during the signup process.
+- **Task Ownership Validation** is performed in `updateTask()` to ensure only the creator can modify it.
+
+---
+
+## 🚀 API Usage
+
+### 📤 Submit Task
+
+```bash
+curl -X POST http://localhost:5000/api/submissions \
+-H "Authorization: Bearer eyJhb..." \
+-F "task_id=5" \
+-F "github_link=https://github.com/user/task-submission"
+```
+
+---
+
+### 👤 Assign Task
+
+```bash
+curl -X PUT http://localhost:5000/api/tasks/15/user/8/assigned \
+-H "Authorization: Bearer eyJhb..."
+```
+
+---
+
+> 📝 **Note:** Replace `eyJhb...` with your actual JWT token and adjust the task/user IDs as per your database entries.
