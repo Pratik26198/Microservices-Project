@@ -62,9 +62,9 @@ A robust microservices project for task management with JWT authentication, role
 curl -X POST http://localhost:5000/auth/signup \
 -H "Content-Type: application/json" \
 -d '{
-  "email": "dev@taskify.com",
+  "email": "pratik@taskify.com",
   "password": "secure123",
-  "fullName": "John Developer",
+  "fullName": "Pratik Developer",
   "role": "ADMIN"
 }'
 ```
